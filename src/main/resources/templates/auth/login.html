@@ -68,6 +68,14 @@
     <form class="form-signin" th:action="@{/authenticateTheUser}" method="post">
       <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
       <hr/>
+      <div th:if="${param.error}" class="alert alert-danger" role="alert">
+        Invalid credentials. Please try again.
+      </div>
+
+      <div th:if="${param.logout}" class="alert alert-info" role="alert">
+        Successfully singed out
+      </div>
+
       <input
         type="text"
         class="form-control mb-4"

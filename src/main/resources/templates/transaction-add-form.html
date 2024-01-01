@@ -1,73 +1,130 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark">
-    <head>
-        <meta charset="utf-8">
-        <title>Add New Transaction</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <head>
+    <meta charset="utf-8" />
+    <title>Add New Transaction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     />
-    </head>
-        <div class="container">
-            <h3>Add New Transaction</h3>
-        <hr />
-
-        <div class="container">
-          <div class="position-relative">
-            <form method="POST" th:action="@{/transactions/add-transaction}" th:object="${transaction}">
-              <input type="hidden" th:field="*{id}">
-              <div class="mb-3">
-                <label class="form-label">Recipient Name</label>
-                <input type="text" class="form-control" th:field="*{recipientName}">
-                <div class="form-text" th:if="${#fields.hasErrors('recipientName')}" th:errors="*{recipientName}"></div>
+  </head>
+  <body>
+    <div class="container">
+      <h3>Add New Transaction</h3>
+      <h5><span sec:authentication="principal.username"></span></h5>
+      <hr />
+      <div class="container">
+        <div class="position-relative">
+          <form
+            method="POST"
+            th:action="@{/transactions/add-transaction}"
+            th:object="${transaction}"
+          >
+            <input type="hidden" th:field="*{id}" />
+            <div class="mb-3">
+              <label class="form-label">Recipient Name</label>
+              <input
+                type="text"
+                class="form-control"
+                th:field="*{recipientName}"
+              />
+              <div
+                class="form-text"
+                th:if="${#fields.hasErrors('recipientName')}"
+                th:errors="*{recipientName}"
+              ></div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Product Name</label>
+              <input
+                type="text"
+                class="form-control"
+                th:field="*{productName}"
+              />
+              <div
+                class="form-text"
+                th:if="${#fields.hasErrors('productName')}"
+                th:errors="*{productName}"
+              ></div>
+            </div>
+            <div class="input-group">
+              <div class="col-md-5 mb-3">
+                <label class="form-label">Price</label>
+                <div class="input-group">
+                  <input
+                    type="number"
+                    value="0.00"
+                    step="0.01"
+                    class="form-control"
+                    th:field="*{productPrice}"
+                    aria-label="Dollar amount (with dot and two decimal places)"
+                  />
+                  <span class="input-group-text">€</span>
+                  <span class="input-group-text">0.00</span>
+                </div>
+                <div
+                  class="form-text"
+                  th:if="${#fields.hasErrors('productPrice')}"
+                  th:errors="*{productPrice}"
+                ></div>
               </div>
-              <div class="mb-3">
-                <label class="form-label">Product Name</label>
-                <input type="text" class="form-control" th:field="*{productName}">
-                <div class="form-text" th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"></div>
+              <div class="col-md-1 mb-3"></div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Quantity</label>
+                <input
+                  type="number"
+                  value="0"
+                  step="1"
+                  class="form-control"
+                  th:field="*{quantity}"
+                />
+                <div
+                  class="form-text"
+                  th:if="${#fields.hasErrors('quantity')}"
+                  th:errors="*{quantity}"
+                ></div>
               </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+      <hr />
+      <div class="container mt-5">
+        <div class="row justify-content-center">
+          <div class="">
+            <form
+              th:action="@{/auth/logout}"
+              method="post"
+              class="mx-auto text-right"
+            >
               <div class="input-group">
-                <div class="col-md-5 mb-3">
-                  <label class="form-label">Price</label>
-                  <div class="input-group">
-                    <input type="number" value="0.00" step="0.01" class="form-control" th:field="*{productPrice}" aria-label="Dollar amount (with dot and two decimal places)">
-                    <span class="input-group-text">€</span>
-                    <span class="input-group-text">0.00</span>
-                  </div>
-                  <div class="form-text" th:if="${#fields.hasErrors('productPrice')}" th:errors="*{productPrice}"></div>
+                <div class="col-md-1">
+                  <a th:href="@{/transactions}" class="btn btn-success">&lt;</a>
                 </div>
-                <div class="col-md-1 mb-3">
-                </div>
-                <div class="col-md-6 mb-3">
-                  <label class="form-label">Quantity</label>
-                  <input type="number" value=0 step="1" class="form-control" th:field="*{quantity}">
-                  <div class="form-text" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></div>
+                <div class="col-md-3">
+                  <button type="submit" class="btn btn-danger">Logout</button>
                 </div>
               </div>
-              <button type="submit" class="btn btn-primary">Submit</button>
             </form>
           </div>
         </div>
+      </div>
+    </div>
 
-        <hr />
-        <form th:action="@{/auth/logout}" method="post">
-          <input
-            type="hidden"
-            th:name="${_csrf.parameterName}"
-            th:value="${_csrf.token}"
-          />
-          <button class="btn btn-danger" type="submit">Logout</button>
-        </form>
-
-        <script>
-          // Set the default value using JavaScript
-          document.getElementById("productPrice").value = 0.01;
-          document.getElementById("quantity").value = 1;
-      </script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    </body>
+    <script>
+      // Set the default value using JavaScript
+      document.getElementById("productPrice").value = 0.01;
+      document.getElementById("quantity").value = 1;
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

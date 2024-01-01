@@ -39,13 +39,16 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(configurer -> configurer
+                .requestMatchers("/", "/transactions").hasRole("VIEW")
+                .requestMatchers("/", "/transactions", "transactions/add-transaction").hasRole("WRITER")
+                .requestMatchers("/", "/transactions", "transactions/**").hasRole("ADMIN")
                 .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/auth/login")
                         .loginProcessingUrl("/authenticateTheUser")
                         .permitAll())
                 .logout(logout -> logout
-                        .logoutUrl("/auth/logout") 
+                        .logoutUrl("/auth/logout")
                         .logoutSuccessUrl("/auth/login?logout")
                         .permitAll());
 
