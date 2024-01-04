@@ -13,7 +13,7 @@
     />
   </head>
 
-  <body>
+  <body class="d-flex align-items-center justify-content-center ">
     <div class="d-flex align-items-center justify-content-center vh-100">
       <div class="text-center">
         <h1 class="display-1 fw-bold" th:text="${error}"></h1>
@@ -21,8 +21,19 @@
           <span class="text-danger">Opps!</span> <text th:text="${error_title}"></text>
         </p>
         <p class="lead" th:text="${error_message}" //>
-        <a th:href="@{/transactions}" class="btn btn-primary">Go Home</a>
+        <a th:href="@{/transactions}" class="btn btn-primary mb-4">Go Home</a>
+
+        <form
+            th:action="@{/auth/logout}"
+            method="post"
+            class="mx-auto text-right"
+          >
+            <button type="submit" class="btn btn-danger">Logout</button>
+          </form>
+
       </div>
     </div>
+
+
   </body>
 </html>
